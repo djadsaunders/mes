@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+
+		<!-- JQuery JS -->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<!-- Popper -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+		<!-- Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<!-- Bootstrap Theme CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	
+		<style>
+			.running {
+				color:green;
+			}
+			.stopped {
+				color:red;
+			}
+			.slow {
+				color:orange;
+			}
+			.enabled {
+				color:black;
+			}
+			.disabled {
+				color:grey;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="p-3" id="content-div">
+			<h1>{{line_name}}</h1>
+			<h3 :class="getStateStyle()">{{state}}</h3>
+			<h3 :class="getAvailabilityStyle()">{{availability}}</h3>
+			<h3 :class="getCrewStyle()">{{crew}}</h3>
+			<h3 :class="getShiftStyle()">{{shift}}</h3>
+			<h3 :class="getRunStyle()">{{run}}</h3>
+		</div>
+	</body>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		var vm = new Vue({
+		  el: '#content-div',
+		  data: {
+		    line_name: '',
+		    state: 'Stopped',
+		    availability: 'Unavailable',
+		    crew: 'No crew',
+		    shift: 'No shift',
+		    run: 'No run',
+		    stateMap: {"Stopped":"stopped", "Running":"running", "Slow":"slow"}
+		  },
+		  created: function() {
+		  	this.getResourceInfo();
+		  	setInterval(this.getResourceInfo, 1000);
+		  },
+		  methods: {
+		  	getResourceInfo: function() {
+				$.get("http://localhost:8081/query/resourceInfo?tag=LINEA", function(resp) {
+					vm.line_name = resp.name;
+					if (resp.productionState == "2") {
+						vm.state = "Running";
+					}
+					else if (resp.productionState == "1") {
+						vm.state = "Slow";
+					}
+					else {
+						vm.state = "Stopped";
+					}
+					vm.availability = resp.availability == "1" ? "Available" : "Unavailable";
+					vm.crew = (resp.currentCrew == null ? "No crew" : resp.currentCrew);
+					vm.shift = (resp.currentShift == null ? "No shift" : resp.currentShift);
+					vm.run = (resp.currentProductionRun == null ? "No run" : resp.currentProductionRun);
+				});
+		  	},
+		  	getStateStyle: function() {
+	  			return this.stateMap[vm.state];
+		  	},
+		  	getAvailabilityStyle: function() {
+		  		return vm.availability == "1" ? "enabled" : "disabled";
+		  	},
+		  	getCrewStyle: function() {
+		  		return vm.crew == "No crew" ? "disabled" : "enabled";
+		  	},
+		  	getShiftStyle: function() {
+		  		return vm.shift == "No shift" ? "disabled" : "enabled";
+		  	},
+		  	getRunStyle: function() {
+		  		return vm.run == "No run" ? "disabled" : "enabled";
+		  	}
+		  }
+		});
+	</script>
+
+</html>

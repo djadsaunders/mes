@@ -1,0 +1,76 @@
+version: "3"
+
+networks:
+    mes-net:
+
+services:
+    zookeeper:
+        image: confluentinc/cp-zookeeper:5.1.2
+        ports:
+            - "2181:2181"
+        networks:
+            - mes-net
+        container_name: zookeeper
+        environment:
+                ZOOKEEPER_CLIENT_PORT: 2181
+
+    kafka:
+        image: confluentinc/cp-kafka:5.1.2
+        ports:
+            - "9092:9092"
+        networks:
+            - mes-net
+        container_name: kafka
+        environment:
+            KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+            KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+    db:
+        image: mariadb
+        networks:
+            - mes-net
+        container_name: mariadb
+        environment: 
+            MYSQL_ROOT_PASSWORD: adm1n
+            MYSQL_DATABASE: mes
+
+    data-capture:
+        image: djad/dc-service
+        build:
+            context: ./dc-service
+        networks:
+            - mes-net
+        ports:
+            - "8080:8080"
+        container_name: dc-service
+        depends_on:
+            - "kafka"
+        command: "--eventsender=com.djad.mes.events.KafkaEventSender --kafka.bootstrap.servers=kafka:9092"
+
+    real-time-service:
+        image: djad/rt-service
+        build:
+            context: ./rt-service
+        networks:
+            - mes-net
+        ports:
+            - "8082:8082"
+        container_name: rt-service
+        depends_on:
+            - "db"
+        command: "--dbserver=mariadb --kafka.bootstrap.servers=kafka:9092"
+
+    query-service:
+        image: djad/query-service
+        build:
+            context: ./query-service
+        networks:
+            - mes-net
+        ports:
+            - "8081:8081"
+        container_name: query-service
+        depends_on:
+            - "db"
+        command: "--dbserver=mariadb"
+

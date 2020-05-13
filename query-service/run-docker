@@ -1,0 +1,1 @@
+docker run -d -p 8081:8081 --rm --name query-service djad/query-service --dbserver=$1

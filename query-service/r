@@ -1,0 +1,2 @@
+clear
+java -jar target/mes-query-0.0.1-SNAPSHOT.jar

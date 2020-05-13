@@ -1,0 +1,2 @@
+clear
+java -Dspring.profiles.active=dev -jar target/rt-service-0.0.1-SNAPSHOT.jar

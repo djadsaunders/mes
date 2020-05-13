@@ -1,0 +1,14 @@
+INSERT INTO shift (id, name) VALUES (1,'AM');
+INSERT INTO shift (id, name) VALUES (2,'PM');
+INSERT INTO shift (id, name) VALUES (3,'NIGHTS');
+INSERT INTO crew (id, name) VALUES (1,'BLUE');
+INSERT INTO crew (id, name) VALUES (2,'RED');
+INSERT INTO product (id, name, description) VALUES (1,'P-A','Product A');
+INSERT INTO product (id, name, description) VALUES (2,'P-B', 'Product B');
+INSERT INTO product (id, name, description) VALUES (3,'P-C', 'Product C');
+INSERT INTO production_run (id, product_id, name) VALUES (1,1,'A-001');
+INSERT INTO production_run (id, product_id, name) VALUES (2,1,'A-002');
+INSERT INTO production_run (id, product_id, name) VALUES (3,2,'B-001');
+INSERT INTO production_run (id, product_id, name) VALUES (4,2,'B-002');
+INSERT INTO production_run (id, product_id, name) VALUES (5,3,'C-001');
+INSERT INTO production_run (id, product_id, name) VALUES (6,3,'C-002');

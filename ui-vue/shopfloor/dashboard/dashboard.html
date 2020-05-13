@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>MES UI</title>
+				
+		<!-- CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<link rel="stylesheet" href="../css/style.css" />
+
+		<!-- Javascript -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="../js/moment.js"></script>
+	</head>
+
+	<body>
+		<div id="app" class="container-fluid">
+			<div class=page-header>
+				<h1>Shopfloor Dashboard</h1>
+				<small><i>&nbsp;&nbsp;Last refreshed: {{lastRefreshedTime}}</i></small>
+			</div>
+			<div v-if="resources.length == 0">
+				<h3 class="error-text">No Resources!</h3>
+			</div>
+			<div v-for="resource in resources">
+				<dashboard-row 
+					:resource="resource"
+					:production-run="{outCount:1234}">
+				</dashboard-row>
+			</div>
+			<!--
+			<dashboard-row 
+				v-for="resource in resources"
+				:resource="resource"
+				:productionRun="productionRunInfo[0]"
+				:key="resource.name">
+			</dashboard-row>
+			-->
+			</div>
+	</body>
+
+	<script src="../dashboard-row/dashboard-row.js"></script>
+	<script src="dashboard.js"></script>
+
+</html>
