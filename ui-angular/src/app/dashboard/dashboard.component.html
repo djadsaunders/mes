@@ -1,0 +1,15 @@
+<div class="container-fluid">
+	<div class=page-header>
+		<h1>Shopfloor Dashboard</h1>
+		<small><i>&nbsp;&nbsp;Last refreshed: {{lastRefreshedTime | date: 'hh:mm:ss'}}</i></small>
+	</div>
+	
+	<div>
+		<div *ngIf="resources.length == 0">
+			<h3 class="error-text">No Resources!</h3>
+		</div>
+		<div *ngFor="let resource of resources">
+			<app-dashboard-row [resource]="resource"></app-dashboard-row>
+		</div>
+	</div>
+</div>

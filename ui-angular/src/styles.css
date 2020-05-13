@@ -1,0 +1,26 @@
+.running {
+	color:green;
+}
+.stopped {
+	color:red;
+}
+.slow {
+	color:orange;
+}
+.enabled {
+	color:black;
+}
+.disabled {
+	color:grey;
+}
+.subtitle {
+	font-size: 0.75em;
+	color: grey;
+}
+.dashboard-row-panel {
+	height: 80px;
+	border: 1px solid #ddd;
+}
+.error-text {
+	color: red;
+}

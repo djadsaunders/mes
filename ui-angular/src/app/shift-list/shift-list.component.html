@@ -1,0 +1,7 @@
+<h4>Select a new Shift</h4>
+
+<table class="table table-bordered table-hover">
+	<tr *ngFor="let shift of shifts" (click)="shiftSelected(shift)">
+		<td>{{shift.name}}</td>
+	</tr>						
+</table>

@@ -1,0 +1,29 @@
+<div class="container-fluid">
+	<div class="page-header">
+		<h1 [class]="resource.productionState == 0 ? 'stopped' : resource.productionState == 1 ? 'slow' : 'running'">
+			{{resource.name}}
+		</h1>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2"><h4>{{resource.currentShift}}</h4></div>
+			<div class="col-md-1"><a (click)="lookupShifts()">[Change]</a></div>
+		</div>
+		<div class="row">
+			<div class="col-md-2"><h4>{{resource.currentCrew}}</h4></div>
+			<div class="col-md-1"><a (click)="lookupCrews()">[Change]</a></div>
+		</div>
+		<hr/>
+		<div class="row" style="padding-top:25px;">
+			<div class="col-md-8">
+				<ng-container *ngComponentOutlet="LookupTable"></ng-container>
+			</div>
+		</div>
+	<div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+		<div class="container">
+			<button type="button" class="btn btn-default navbar-btn" [routerLink]="['/dashboard']">Dashboard</button>
+		</div>
+	</nav>
+</div>

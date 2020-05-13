@@ -1,0 +1,7 @@
+<h4>Select a new Crew</h4>
+
+<table class="table table-bordered table-hover">
+	<tr *ngFor="let crew of crews" (click)="crewSelected(crew)">
+		<td>{{crew.name}}</td>
+	</tr>						
+</table>
