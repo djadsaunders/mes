@@ -1,14 +1,8 @@
 # MES Experimental Project
 
-This project uses the MES domain to experiment with various technologies, currently:
+This project uses the MES domain to experiment with various technologies, including Microservices, SpringBoot, Node.JS, Vue, Angular 2, Kafka, Docker.
 
-* Microservices
-* SpringBoot
-* Node.JS
-* Vue
-* Angular 2
-* Kafka
-* Docker
+MES (Manufacturing Execution Systems) sit just above the machines and low level systems in manufacturing environments. They collect data from machines and make use of it to improve performance, reduce waste etc. They may also control the machinery directly.
 
 # Modules
 
@@ -16,11 +10,15 @@ This project uses the following modules. The aim is to treat them as microservic
 
 ## dc-service
 
-SpringBoot app with web services that process signals (e.g. state changes) and post them to a Kafka stream
+Data collection service which receives signals from machines (e.g. state changes) and posts them to an event stream.
+
+This is implemented as a `SpringBoot` application. `Kafka` is used as the event stream.
 
 ## rt-service
 
-SpringBoot app which subscribes to Kafka events and writes to a real-time datastore (RDBMS). The real-time datastore keeps a current picture of the state of the system
+One way signals can be used is to process them and pass them to a datastore. In this case, an RDMBS is used to represent the current state of the system.
+
+The rt-service is implemented as a SpringBoot app which subscribes to Kafka events and writes to a MySQL database.
 
 ## query-service
 
