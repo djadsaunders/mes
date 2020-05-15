@@ -1,3 +1,0 @@
-clear
-mvn clean package
-java -jar target/dc-service-0.0.1-SNAPSHOT.jar

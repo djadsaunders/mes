@@ -1,1 +1,0 @@
-docker run -d --link kafka --link mariadb --rm --name rt-service djad/rt-service --dbserver=mariadb --kafka.bootstrap.servers=kafka:9092

@@ -46,7 +46,7 @@ services:
         container_name: dc-service
         depends_on:
             - "kafka"
-        command: "--eventsender=com.djad.mes.events.KafkaEventSender --kafka.bootstrap.servers=kafka:9092"
+        command: "--eventsender=com.djad.mes.events.KafkaEventSender --kafka.bootstrap.servers=kafka:9092 --kafka.topic=mes"
 
     real-time-service:
         image: djad/rt-service
@@ -59,7 +59,8 @@ services:
         container_name: rt-service
         depends_on:
             - "db"
-        command: "--dbserver=mariadb --kafka.bootstrap.servers=kafka:9092"
+        entrypoint: ["./wait-for-it.sh","-t","0","db:3306","--","java","-Dspring.profiles.active=prod","-jar","rt-service-0.0.1-SNAPSHOT.jar"]
+        command: "--dbserver=mariadb --kafka.bootstrap.servers=kafka:9092 --kafka.topic=mes"
 
     query-service:
         image: djad/query-service
@@ -72,5 +73,6 @@ services:
         container_name: query-service
         depends_on:
             - "db"
+        entrypoint: ["./wait-for-it.sh","-t","0","db:3306","--","java","-jar","mes-query-0.0.1-SNAPSHOT.jar"]
         command: "--dbserver=mariadb"
 
