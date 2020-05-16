@@ -1,2 +1,3 @@
 #!/bin/bash
-java -jar target/mes-test-data-0.0.1-SNAPSHOT.jar com.djad.mestestdata.scenario.SimulationScenario http://localhost:8082
+clear
+docker run --rm djad/mes-test-data com.djad.mestestdata.scenario.SimulationScenario http://localhost:8082
